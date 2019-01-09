@@ -3,37 +3,37 @@ var router = express.Router();
 
 /* GET workouts index /workouts */
 router.get('/', (req, res, next) => {
-  res.send('/workouts');
+  res.send('INDEX /workouts');
 });
 
 /* GET workouts new /workouts */
 router.get('/new', (req, res, next) => {
-  res.send('/workouts/new');
+  res.send('NEW /workouts/new');
 });
 
 /* POST workouts create /workouts */
-router.get('/', (req, res, next) => {
-  res.send('/workouts/new');
+router.post('/', (req, res, next) => {
+  res.send('CREATE /workouts');
 });
 
-/* GET workouts show /workouts */
+/* GET workouts show /workouts/:id */
 router.get('/', (req, res, next) => {
-  res.send('/workouts/new');
+  res.send('SHOW /workouts/:id');
 });
 
-/* GET workouts edit /workouts */
+/* GET workouts edit /workouts/:id/edit */
 router.get('/', (req, res, next) => {
-  res.send('/workouts/new');
+  res.send('EDIT /workouts/:id/edit');
 });
 
-/* PUT workouts update /workouts */
-router.get('/', (req, res, next) => {
-  res.send('/workouts/new');
+/* PUT workouts update /workouts/:id */
+router.put('/', (req, res, next) => {
+  res.send('UPDATE /workouts/:id');
 });
 
-/* DELETE workouts destroy /workouts */
-router.get('/', (req, res, next) => {
-  res.send('/workouts/new');
+/* DELETE workouts destroy /workouts/:id */
+router.delete('/', (req, res, next) => {
+  res.send('DELETE /workouts/:id');
 });
 
 module.exports = router;

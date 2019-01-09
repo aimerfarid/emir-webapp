@@ -3,37 +3,37 @@ var router = express.Router();
 
 /* GET travels index /travels */
 router.get('/', (req, res, next) => {
-  res.send('/travels');
+  res.send('INDEX /travels');
 });
 
 /* GET travels new /travels */
 router.get('/new', (req, res, next) => {
-  res.send('/travels/new');
+  res.send('NEW /travels/new');
 });
 
 /* POST travels create /travels */
-router.get('/', (req, res, next) => {
-  res.send('/travels/new');
+router.post('/', (req, res, next) => {
+  res.send('CREATE /travels');
 });
 
-/* GET travels show /travels */
-router.get('/', (req, res, next) => {
-  res.send('/travels/new');
+/* GET travels show /travels/:id */
+router.get('/:id', (req, res, next) => {
+  res.send('SHOW /travels/:id');
 });
 
-/* GET travels edit /travels */
-router.get('/', (req, res, next) => {
-  res.send('/travels/new');
+/* GET travels edit /travels/:id/edit */
+router.get('/:id/edit', (req, res, next) => {
+  res.send('EDIT /travels/:id');
 });
 
-/* PUT travels update /travels */
-router.get('/', (req, res, next) => {
-  res.send('/travels/new');
+/* PUT travels update /travels/:id */
+router.put('/:id', (req, res, next) => {
+  res.send('UPDATE /travels/:id');
 });
 
-/* DELETE travels destroy /travels */
-router.get('/', (req, res, next) => {
-  res.send('/travels/new');
+/* DELETE travels destroy /travels/:id */
+router.delete('/:id', (req, res, next) => {
+  res.send('DESTROY /travels/:id');
 });
 
 module.exports = router;
