@@ -1,17 +1,17 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router({ mergeParams: true });
 
-/* POST comments create /comments */
+/* POST comments create /:id/comments */
 router.post('/', (req, res, next) => {
   res.send('CREATE /comments');
 });
 
-/* PUT comments update /comments/:id */
+/* PUT comments update /:id/comments/:comment_id */
 router.put('/:comment_id', (req, res, next) => {
   res.send('UPDATE /comments/:id');
 });
 
-/* DELETE comments destroy /comments/:id */
+/* DELETE comments destroy /:id/comments/:comment_id */
 router.delete('/:comment_id', (req, res, next) => {
   res.send('DELETE /comments/:id');
 });
