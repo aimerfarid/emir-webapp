@@ -10,10 +10,10 @@ const blogSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  reviews: [
+  comments: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Review'
+      ref: 'Comment'
     }
   ]
 });

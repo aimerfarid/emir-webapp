@@ -10,10 +10,11 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const User = require('./models/user');
-// const session = require('express-session');
+const session = require('express-session');
 const mongoose = require('mongoose');
 // const methodOverride = require('method-override');
 
+// Require Routes
 const indexRouter = require('./routes/index');
 const blogRouter = require('./routes/blogs');
 const commentRouter = require('./routes/comments');
@@ -22,16 +23,37 @@ const workoutRouter = require('./routes/workouts');
 
 const app = express();
 
+// connect to the database
+mongoose.connect('mongodb://localhost:27017/emir-webapp', { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('we are connected!')
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Uncomment after placing your favicon in /public
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Configure Passport and Sessions
+app.use(session({
+  secret: 'personal website shh!',
+  resave: false,
+  saveUninitialized: true
+}));
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Mount Routes
 app.use('/', indexRouter);
 app.use('/blogs', blogRouter);
 app.use('/blogs/:id/comments', commentRouter);

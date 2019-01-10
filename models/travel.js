@@ -8,13 +8,13 @@ const travelSchema = new Schema({
   location: String,
   coordinates: Array,
   author: {
-    type: Schema.Type  s.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  reviews: [
+  comments: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Review'
+      ref: 'Comment'
     }
   ]
 });
