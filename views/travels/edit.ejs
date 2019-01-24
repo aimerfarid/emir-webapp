@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate-travel') -%>
+
+<h1>Edit Travel Post!</h1>
+
+<form action="/travels/<%= travel.id %>?_method=PUT" method="POST" id="postEditFormTravel" enctype="multipart/form-data">
+  <div><input type="text" name="travel[title]" placeholder="Title" value="<%= travel.title %>"></div>
+  <div><input type="text" name="travel[location]" placeholder="Location" value="<%= travel.location %>"></div>
+  <div>
+    <input type="file" id="imageUpload" accept="images/*" name="images" multiple />
+    <div class="">
+      <% travel.images.forEach(function(image, i) { %>
+        <img src="<%= image.url %>" alt="Travel Images" width="100px">
+        <label for="image<%= i %>Travel">Delete?</label>
+        <input type="checkbox" name="deleteImages[]" class="imageDeleteCheckbox" id="image<%= i %>Travel" value="<%= image.public_id %>">
+      <% }); %>
+    </div>
+  </div>
+  <div><textarea name="travel[description]" placeholder="Description"><%= travel.description %></textarea></div>
+  <button>Submit</button>
+</form>
+
+<script src="/javascripts/travel-edit.js" type="text/javascript"></script>

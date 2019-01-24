@@ -1,0 +1,21 @@
+<% layout('layouts/boilerplate-blog') -%>
+<h1>Edit Blog Post!</h1>
+
+<form action="/blogs/<%= blog.id %>?_method=PUT" method="POST" id="postEditFormBlog" enctype="multipart/form-data">
+  <div><input type="text" name="blog[title]" placeholder="Title" value="<%= blog.title %>"></div>
+  <div><input type="text" name="blog[category]" placeholder="Category" value="<%= blog.category %>"></div>
+  <div>
+    <input type="file" id="imageUpload" accept="images/*" name="images" multiple />
+    <div class="">
+      <% blog.images.forEach(function(image, i) { %>
+        <img src="<%= image.url %>" alt="Blog Images" width="100px">
+        <label for="image<%= i %>Blog">Delete?</label>
+        <input type="checkbox" name="deleteImages[]" class="imageDeleteCheckbox" id="image<%= i %>Blog" value="<%= image.public_id %>">
+      <% }); %>
+    </div>
+  </div>
+  <div><textarea name="blog[description]" placeholder="Description"><%= blog.description %></textarea></div>
+  <button>Submit</button>
+</form>
+
+<script src="/javascripts/blog-edit.js" type="text/javascript"></script>

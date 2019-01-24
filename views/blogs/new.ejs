@@ -1,0 +1,18 @@
+<% layout('layouts/boilerplate-blog') -%>
+<h1>New Blog Post!</h1>
+
+<form action="/blogs" method="POST" enctype="multipart/form-data">
+  <div><input type="text" name="blog[title]" placeholder="Title"></div>
+  <div><input type="text" name="blog[category]" placeholder="Category"></div>
+  <div>
+    <input type="file" accept="images/*" name="images" multiple />
+  </div>
+  <div><textarea name="blog[description]" placeholder="Description"></textarea></div>
+  <button>Submit</button>
+</form>
+
+<!--
+title: String,
+category: String,
+description: String,
+-->

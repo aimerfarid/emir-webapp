@@ -1,0 +1,11 @@
+<% layout('layouts/boilerplate-travel') -%>
+<h1>Travels Index</h1>
+
+<div class="">
+  <% travels.forEach(function(travel) { %>
+    <h2><%= travel.title %></h2>
+    <div>Location: <%= travel.location %></div>
+    <div><%= travel.description %></div>
+    <div class=""><a href="/travels/<%= travel.id %>">View More!</a></div>
+  <% }) %>
+</div>

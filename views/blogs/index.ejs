@@ -1,0 +1,15 @@
+<% layout('layouts/boilerplate-blog') -%>
+<h1>Blogs Index</h1>
+
+<% include ../partials/paginateApps %>
+
+  <div class="">
+    <% blogs.docs.forEach(function(blog) { %>
+    <h2><%= blog.title %></h2>
+    <div class="">Category: <%= blog.category %></div>
+    <div><%- blog.description %></div>
+    <div class=""><a href="/blogs/<%= blog.id %>">View More</a></div>
+    <% }); %>
+  </div>
+
+<% include ../partials/paginateApps %>

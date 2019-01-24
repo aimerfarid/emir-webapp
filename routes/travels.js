@@ -1,40 +1,38 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({'dest': 'uploads/'});
+const { asyncErrorHandler } = require('../middleware');
+const {
+  travelIndex,
+  travelNew,
+  travelCreate,
+  travelShow,
+  travelEdit,
+  travelUpdate,
+  travelDestroy
+} = require('../controllers/travels');
 
 /* GET travels index /travels */
-router.get('/', (req, res, next) => {
-  res.send('INDEX /travels');
-});
+router.get('/', asyncErrorHandler(travelIndex));
 
 /* GET travels new /travels */
-router.get('/new', (req, res, next) => {
-  res.send('NEW /travels/new');
-});
+router.get('/new', travelNew);
 
 /* POST travels create /travels */
-router.post('/', (req, res, next) => {
-  res.send('CREATE /travels');
-});
+router.post('/', upload.array('images', 10), asyncErrorHandler(travelCreate));
 
 /* GET travels show /travels/:id */
-router.get('/:id', (req, res, next) => {
-  res.send('SHOW /travels/:id');
-});
+router.get('/:id', asyncErrorHandler(travelShow));
 
 /* GET travels edit /travels/:id/edit */
-router.get('/:id/edit', (req, res, next) => {
-  res.send('EDIT /travels/:id');
-});
+router.get('/:id/edit', asyncErrorHandler(travelEdit));
 
 /* PUT travels update /travels/:id */
-router.put('/:id', (req, res, next) => {
-  res.send('UPDATE /travels/:id');
-});
+router.put('/:id', upload.array('images', 10), asyncErrorHandler(travelUpdate));
 
 /* DELETE travels destroy /travels/:id */
-router.delete('/:id', (req, res, next) => {
-  res.send('DESTROY /travels/:id');
-});
+router.delete('/:id', asyncErrorHandler(travelDestroy));
 
 module.exports = router;
 

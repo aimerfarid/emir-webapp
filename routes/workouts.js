@@ -1,40 +1,38 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({'dest': 'uploads/'});
+const { asyncErrorHandler } = require('../middleware');
+const {
+  workoutIndex,
+  workoutNew,
+  workoutCreate,
+  workoutShow,
+  workoutEdit,
+  workoutUpdate,
+  workoutDestroy
+} = require('../controllers/workouts');
 
 /* GET workouts index /workouts */
-router.get('/', (req, res, next) => {
-  res.send('INDEX /workouts');
-});
+router.get('/', asyncErrorHandler(workoutIndex));
 
 /* GET workouts new /workouts */
-router.get('/new', (req, res, next) => {
-  res.send('NEW /workouts/new');
-});
+router.get('/new', workoutNew);
 
 /* POST workouts create /workouts */
-router.post('/', (req, res, next) => {
-  res.send('CREATE /workouts');
-});
+router.post('/', upload.array('images', 4), asyncErrorHandler(workoutCreate));
 
 /* GET workouts show /workouts/:id */
-router.get('/', (req, res, next) => {
-  res.send('SHOW /workouts/:id');
-});
+router.get('/:id', asyncErrorHandler(workoutShow));
 
 /* GET workouts edit /workouts/:id/edit */
-router.get('/', (req, res, next) => {
-  res.send('EDIT /workouts/:id/edit');
-});
+router.get('/:id/edit', asyncErrorHandler(workoutEdit));
 
 /* PUT workouts update /workouts/:id */
-router.put('/', (req, res, next) => {
-  res.send('UPDATE /workouts/:id');
-});
+router.put('/:id', upload.array('images', 4), asyncErrorHandler(workoutUpdate));
 
 /* DELETE workouts destroy /workouts/:id */
-router.delete('/', (req, res, next) => {
-  res.send('DELETE /workouts/:id');
-});
+router.delete('/:id', asyncErrorHandler(workoutDestroy));
 
 module.exports = router;
 

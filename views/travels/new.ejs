@@ -1,0 +1,18 @@
+<% layout('layouts/boilerplate-travel') -%>
+<h1>New Travel Post!</h1>
+
+<form action="/travels" method="POST" enctype="multipart/form-data">
+  <div><input type="text" name="travel[title]" placeholder="Title"></div>
+  <div>
+    <input type="file" accept="images/*" name="images" multiple />
+  </div>
+  <div><input type="text" name="travel[location]" placeholder="Location"></div>
+  <div><textarea name="travel[description]" placeholder="Description"></textarea></div>
+  <button>Submit</button>
+</form>
+
+<!--
+title: String,
+location: String,
+description: String,
+-->

@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
+const { asyncErrorHandler, isCommentAuthor } = require('../middleware');
+const {
+  commentCreate,
+  commentUpdate,
+  commentDestroy
+} = require('../controllers/comments');
 
 /* POST comments create /:id/comments */
-router.post('/', (req, res, next) => {
-  res.send('CREATE /comments');
-});
+router.post('/', asyncErrorHandler(commentCreate));
 
 /* PUT comments update /:id/comments/:comment_id */
-router.put('/:comment_id', (req, res, next) => {
-  res.send('UPDATE /comments/:id');
-});
+router.put('/:comment_id', isCommentAuthor, asyncErrorHandler(commentUpdate));
 
 /* DELETE comments destroy /:id/comments/:comment_id */
-router.delete('/:comment_id', (req, res, next) => {
-  res.send('DELETE /comments/:id');
-});
+router.delete('/:comment_id', isCommentAuthor, asyncErrorHandler(commentDestroy));
 
 module.exports = router;
 

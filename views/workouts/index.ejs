@@ -1,0 +1,11 @@
+<% layout('layouts/boilerplate-workout') -%>
+<h1>Workouts Index</h1>
+
+<div class="">
+  <% workouts.forEach(function(workout) { %>
+    <h2><%= workout.title %></h2>
+    <div><%= workout.reps %> Reps/ <%= workout.sets %> Sets</div>
+    <div><%= workout.description %></div>
+    <div class=""><a href="/workouts/<%= workout.id %>">View More</a></div>
+    <% }); %>
+</div>

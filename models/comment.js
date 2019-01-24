@@ -11,9 +11,3 @@ const commentSchema = new Schema({
 });
 
 module.exports = mongoose.model('Comment', commentSchema);
-
-/*
-##Review##
-- body - string
-- author - object id (ref User)
-*/

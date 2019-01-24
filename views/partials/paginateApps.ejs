@@ -1,0 +1,11 @@
+<div style="margin: 20px 0">
+  <% if(blogs.page - 1) { %>
+   <a href="/blogs?page=<%= blogs.page - 1 %>">Prev</a>
+  <% } %>
+  <% for(let i = 1; i <= blogs.pages; i++) { %>
+   <a href="/blogs?page=<%= i %>" <%= i === blogs.page ? 'style=color:#000' : '' %>><%= i %></a>
+  <% } %>
+  <% if((blogs.page + 1) <= blogs.pages) { %>
+   <a href="/blogs?page=<%= blogs.page + 1 %>">Next</a>
+  <% } %>
+</div>

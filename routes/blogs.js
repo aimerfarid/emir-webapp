@@ -1,40 +1,38 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({'dest': 'uploads/'});
+const { asyncErrorHandler } = require('../middleware');
+const {
+  blogIndex,
+  blogNew,
+  blogCreate,
+  blogShow,
+  blogEdit,
+  blogUpdate,
+  blogDestroy
+} = require('../controllers/blogs');
 
 /* GET blogs index /blogs */
-router.get('/', (req, res, next) => {
-  res.send('INDEX /blogs');
-});
+router.get('/', asyncErrorHandler(blogIndex));
 
 /* GET blogs new /blogs */
-router.get('/new', (req, res, next) => {
-  res.send('NEW /blogs/new');
-});
+router.get('/new', blogNew);
 
 /* POST blogs create /blogs */
-router.post('/', (req, res, next) => {
-  res.send('CREATE /blogs');
-});
+router.post('/', upload.array('images', 2), asyncErrorHandler(blogCreate));
 
 /* GET blogs show /blogs/:id */
-router.get('/:id', (req, res, next) => {
-  res.send('SHOW /blogs/:id');
-});
+router.get('/:id', asyncErrorHandler(blogShow));
 
 /* GET blogs edit /blogs/:id */
-router.get('/:id/edit', (req, res, next) => {
-  res.send('EDIT /blogs/:id/edit');
-});
+router.get('/:id/edit', asyncErrorHandler(blogEdit));
 
 /* PUT blogs update /blogs/:id */
-router.put('/:id', (req, res, next) => {
-  res.send('UPDATE /blogs/:id');
-});
+router.put('/:id', upload.array('images', 2), asyncErrorHandler(blogUpdate));
 
 /* DELETE blogs destroy /blogs/:id */
-router.delete('/:id', (req, res, next) => {
-  res.send('DELETE /blogs/:id');
-});
+router.delete('/:id', asyncErrorHandler(blogDestroy));
 
 module.exports = router;
 

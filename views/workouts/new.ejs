@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate-workout') -%>
+<h1>New Workout Post!</h1>
+
+<form action="/workouts" method="POST" enctype="multipart/form-data">
+  <div><input type="text" name="workout[title]" placeholder="Title"></div>
+  <div><input type="text" name="workout[reps]" placeholder="Reps"></div>
+  <div><input type="number" name="workout[sets]" placeholder="Sets"></div>
+  <div>
+    <input type="file" accept="images/*" name="images" multiple />
+  </div>
+  <div><textarea name="workout[description]" placeholder="Description"></textarea></div>
+  <button>Submit</button>
+</form>
+
+<!--
+title: String,
+reps: Number,
+sets: Number,
+description: String,
+-->

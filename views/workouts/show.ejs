@@ -1,0 +1,85 @@
+<% layout('layouts/workout-show-layout') -%>
+<h1><%= workout.title %></h1>
+
+<div><%= workout.reps %> Reps/ <%= workout.sets %> Sets</div>
+<div><%= workout.description %></div>
+<div class="">
+  <% workout.images.forEach(function(image) { %>
+    <img src="<%= image.url %>" alt="Workout Images" width="200px">
+  <% }); %>
+</div>
+<div>
+  <a href="/workouts/<%= workout.id %>/edit">
+    <button>Edit</button>
+  </a>
+</div>
+<div class="">
+  <form class="" action="/workouts/<%= workout.id %>?_method=DELETE" method="POST">
+    <input type="submit" value="Delete">
+  </form>
+</div>
+
+<h2>Create a Comment</h2>
+<form class="" action="/workouts/<%= workout.id %>/comments" method="POST">
+  <textarea name="comment[body]" required></textarea>
+  <fieldset class="starability-basic">
+    <legend>Rating:</legend>
+    <button class="clear-rating" type="button">Clear Rating</button>
+    <input type="radio" id="rate0" class="input-no-rate" name="comment[rating]" value="0" checked aria-label="No rating." />
+    <input type="radio" id="rate1" name="comment[rating]" value="1" />
+    <label for="rate1" title="Terrible">1 star</label>
+    <input type="radio" id="rate2" name="comment[rating]" value="2" />
+    <label for="rate2" title="Not good">2 stars</label>
+    <input type="radio" id="rate3" name="comment[rating]" value="3" />
+    <label for="rate3" title="Average">3 stars</label>
+    <input type="radio" id="rate4" name="comment[rating]" value="4" />
+    <label for="rate4" title="Very good">4 stars</label>
+    <input type="radio" id="rate5" name="comment[rating]" value="5" />
+    <label for="rate5" title="Amazing">5 stars</label>
+  </fieldset>
+  <input type="submit" value="Submit">
+</form>
+
+<!-- Display all comments -->
+<h3>Comments</h3>
+<% workout.comments.forEach(function(comment) { %>
+  <div class="">
+    Author: <%= comment.author.username %><br>
+    <%= comment.body %><br>
+    Rating: <%= comment.rating %>
+  </div>
+  <% if (comment.author.equals(currentUser._id)) { %>
+    <div class="">
+      <button class="toggle-edit-form">Edit</button>
+
+      <form class="edit-comment-form" action="/workouts/<%= workout.id %>/comments/<%= comment.id %>?_method=PUT" method="POST">
+        <textarea name="comment[body]" required><%= comment.body %></textarea>
+        <fieldset class="starability-basic">
+          <legend>Rating:</legend>
+          <button class="clear-rating" type="button">Clear Rating</button>
+          <input type="radio" id="edit-rate0" class="input-no-rate" name="comment[rating]" value="0" checked aria-label="No rating." />
+          <input type="radio" id="edit-rate1" name="comment[rating]" value="1" />
+          <label for="edit-rate1" title="Terrible">1 star</label>
+          <input type="radio" id="edit-rate2" name="comment[rating]" value="2" />
+          <label for="edit-rate2" title="Not good">2 stars</label>
+          <input type="radio" id="edit-rate3" name="comment[rating]" value="3" />
+          <label for="edit-rate3" title="Average">3 stars</label>
+          <input type="radio" id="edit-rate4" name="comment[rating]" value="4" />
+          <label for="edit-rate4" title="Very good">4 stars</label>
+          <input type="radio" id="edit-rate5" name="comment[rating]" value="5" />
+          <label for="edit-rate5" title="Amazing">5 stars</label>
+        </fieldset>
+        <input type="submit" value="Update">
+      </form>
+
+      <script type="text/javascript">
+        $('#edit-rate<%= comment.rating %>').prop('checked', true);
+      </script>
+
+      <form action="/workouts/<%= workout.id %>/comments/<%= comment.id %>?_method=DELETE" method="POST">
+        <input type="submit" value="Delete">
+      </form>
+    </div>
+  <% } %>
+  <hr>
+<% }) %>

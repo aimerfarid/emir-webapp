@@ -1,0 +1,41 @@
+<% layout('layouts/boilerplate-workout') -%>
+<h1>Edit Workout Post!</h1>
+
+<form action="/workouts/<%= workout.id %>?_method=PUT" method="POST" id="postEditFormWorkout" enctype="multipart/form-data">
+  <div><input type="text" name="workout[title]" placeholder="Title" value="<%= workout.title %>"></div>
+  <div><input type="text" name="workout[reps]" placeholder="Reps" value="<%= workout.reps %>"></div>
+  <div><input type="number" name="workout[sets]" placeholder="Sets" value="<%= workout.sets %>"></div>
+  <div>
+    <input type="file" id="imageUpload" accept="images/*" name="images" multiple />
+    <div class="">
+      <% workout.images.forEach(function(image, i) { %>
+        <img src="<%= image.url %>" alt="Workout Images" width="100px">
+        <label for="image<%= i %>Workout">Delete?</label>
+        <input type="checkbox" name="deleteImages[]" class="imageDeleteCheckbox" id="image<%= i %>Workout" value="<%= image.public_id %>">
+      <% }); %>
+    </div>
+  </div>
+  <div><textarea name="workout[description]" placeholder="Description"><%= workout.description %></textarea></div>
+  <button>Submit</button>
+</form>
+
+<script type="text/javascript">
+  // find post edit form
+  let postEditFormWorkout = document.getElementById('postEditFormWorkout');
+  // add submit listener to post edit form
+  postEditFormWorkout.addEventListener('submit', function(event) {
+    // find length of uploaded images
+    let imageUploads = document.getElementById('imageUpload').files.length;
+    // find total number of existing images
+    let existingImages = document.querySelectorAll('.imageDeleteCheckbox').length;
+    // find total number of potential deletions
+    let imgDeletions = document.querySelectorAll('.imageDeleteCheckbox:checked').length;
+    // figure out if the form can be submitted or not
+    let newTotal = existingImages - imgDeletions + imageUploads;
+    if (newTotal > 4) {
+      event.preventDefault();
+      let removalAmt = newTotal - 4;
+      alert(`You need to remove at least ${removalAmt} (more) image${removalAmt === 1 ? '' : 's'}!`);
+    }
+  });
+</script>

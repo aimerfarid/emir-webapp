@@ -1,0 +1,19 @@
+<% layout('layouts/boilerplate-blog') -%>
+<h1><%= blog.title %></h1>
+<div class="">Category: <%= blog.category %></div>
+<div><%- blog.description %></div>
+<div class="">
+  <% blog.images.forEach(function(image) { %>
+    <img src="<%= image.url %>" alt="Blog Images" width="200px">
+  <% }); %>
+</div>
+<div class="">
+  <a href="/blogs/<%= blog.id %>/edit">
+    <button>Edit</button>
+  </a>
+</div>
+<div class="">
+  <form class="" action="/blogs/<%= blog.id %>?_method=DELETE" method="POST">
+    <input type="submit" value="Delete">
+  </form>
+</div>
