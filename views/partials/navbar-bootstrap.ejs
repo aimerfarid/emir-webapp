@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="/index"><img class="web_logo" src="/images/LOGO_2.png" alt="logo"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/blogs">Personal Blogs</a>
+          <a class="dropdown-item" href="/workouts/blogs">Health Blogs</a>
+          <a class="dropdown-item" href="/workouts">Workouts</a>
+          <a class="dropdown-item" href="/travels">Travels</a>
+        </div>
+      </li>
+      <% if(currentUser && currentUser.isAdmin) { %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Post</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+          <a class="dropdown-item" href="/workouts/new">New Workout</a>
+          <a class="dropdown-item" href="/travels/new">New Travel Post</a>
+        </div>
+      </li>
+      <% } %>
+    </ul>
+    <!-- <form class="form-inline mt-2 mt-md-0"> -->
+      <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"> -->
+      <% if(currentUser) { %>
+      <a class="btn btn-outline-info my-2 my-sm-0" href="/profile">Profile</a>
+      <a class="btn" href="/logout">Logout</a>
+      <% } %>
+    <!-- </form> -->
+  </div>
+</nav>

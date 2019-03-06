@@ -1,17 +1,21 @@
 const Travel = require('../models/travel');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
-const cloudinary = require('cloudinary');
-cloudinary.config({
-  cloud_name: 'aimercloud96',
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET
-});
+const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOXGL_TOKEN });
+const { cloudinary } = require('../cloudinary');
 
 module.exports = {
   async travelIndex(req, res, next) {
-    let travels = await Travel.find({});
-    res.render('travels/index', { travels, title: 'Travel Index' });
+    let travels = await Travel.paginate({}, {
+      page: req.query.page || 1,
+      limit: 10,
+      sort: '-_id'
+    });
+    travels.page = Number(travels.page);
+    res.render('travels/index', {
+      travels,
+      mapBoxGLToken: process.env.MAPBOXGL_TOKEN,
+      title: 'Travel Index'
+    });
   },
 
   travelNew(req, res, next) {
@@ -22,10 +26,9 @@ module.exports = {
     // use req.body to create a new travel post
     req.body.travel.images = [];
     for (const file of req.files) {
-      let image = await cloudinary.v2.uploader.upload(file.path);
       req.body.travel.images.push({
-        url: image.secure_url,
-        public_id: image.public_id
+        url: file.secure_url,
+        public_id: file.public_id
       });
     }
     let response = await geocodingClient
@@ -35,8 +38,12 @@ module.exports = {
       })
       .send();
     // console.log('RESPONSE: ', response);
-    req.body.travel.coordinates = response.body.features[0].geometry.coordinates;
-    let travel = await Travel.create(req.body.travel);
+    req.body.travel.geometry = response.body.features[0].geometry;
+    req.body.travel.author = req.user._id;
+    let travel = new Travel(req.body.travel);
+		travel.properties.description = `<strong><a href="/travels/${travel._id}">${travel.title}</a></strong><p>${travel.location}</p><p>${travel.description.substring(0, 20)}...</p>`;
+		travel.save();
+    req.session.success = "Travel created successfully!";
     // console.log(travel);
     // console.log(travel.coordinates);
     res.redirect(`/travels/${travel.id}`);
@@ -45,18 +52,20 @@ module.exports = {
   async travelShow(req, res, next) {
     // find id
     let travel = await Travel.findById(req.params.id);
-    res.render('travels/show', { travel });
+    res.render('travels/show', {
+      travel,
+      mapBoxPublicToken: process.env.MAPBOXDEFAULT_TOKEN
+    });
   },
 
-  async travelEdit(req, res, next) {
+  travelEdit(req, res, next) {
     // find id
-    let travel = await Travel.findById(req.params.id);
-    res.render('travels/edit', { travel });
+    res.render('travels/edit');
   },
 
   async travelUpdate(req, res, next) {
-    // find the travel by id
-    let travel = await Travel.findById(req.params.id);
+    // destructure post from res.locals
+    const { travel } = res.locals;
     // check if there's any images for deletion
     if (req.body.deleteImages && req.body.deleteImages.length) {
       // assign deleteImages from req.body to its own variable
@@ -78,11 +87,10 @@ module.exports = {
     if(req.files) {
       // upload images
       for(const file of req.files) {
-        let image = await cloudinary.v2.uploader.upload(file.path);
         // add images to travel.images array
         travel.images.push({
-          url: image.secure_url,
-          public_id: image.public_id
+          url: file.secure_url,
+          public_id: file.public_id
         });
       }
     }
@@ -94,20 +102,26 @@ module.exports = {
           limit: 1
         })
         .send();
-      travel.coordinates = response.body.features[0].geometry.coordinates;
+      travel.geometry = response.body.features[0].geometry;
       travel.location = req.body.travel.location;
     }
     // update the travel with any new properties
     travel.title = req.body.travel.title;
     travel.description = req.body.travel.description;
+    travel.properties.description = `<strong><a href="/travels/${travel._id}">${travel.title}</a></strong><p>${travel.location}</p><p>${travel.description.substring(0, 20)}...</p>`;
     // save the updated travel into the db
-    travel.save();
+    await travel.save();
     // redirect to show page
     res.redirect(`/travels/${travel.id}`);
   },
 
   async travelDestroy(req, res, next) {
-    await Travel.findByIdAndRemove(req.params.id);
+    const { travel } = res.locals;
+    for (const image of travel.images) {
+      await cloudinary.v2.uploader.destroy(image.public_id);
+    }
+    await travel.remove();
+    req.session.success = 'Travel Post deleted successfully!';
     res.redirect('/travels');
   }
 }

@@ -1,3 +1,11 @@
 <% layout('layouts/boilerplate') -%>
 <h1><%= title %></h1>
 <p>Welcome to <%= title %></p>
+
+<div id="map"></div>
+
+<script type="text/javascript">
+  mapboxgl.accessToken = "<%= mapBoxGLToken %>";
+  var travels = {features: <%- JSON.stringify(travels) %>};
+</script>
+<script src="/javascripts/allTravelsClusterMap.js" type="text/javascript"></script>

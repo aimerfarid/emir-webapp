@@ -1,19 +1,32 @@
 <% layout('layouts/boilerplate-blog') -%>
-<h1><%= blog.title %></h1>
-<div class="">Category: <%= blog.category %></div>
-<div><%- blog.description %></div>
-<div class="">
-  <% blog.images.forEach(function(image) { %>
-    <img src="<%= image.url %>" alt="Blog Images" width="200px">
-  <% }); %>
-</div>
-<div class="">
-  <a href="/blogs/<%= blog.id %>/edit">
-    <button>Edit</button>
-  </a>
-</div>
-<div class="">
-  <form class="" action="/blogs/<%= blog.id %>?_method=DELETE" method="POST">
-    <input type="submit" value="Delete">
-  </form>
+
+<div class="ui main text container segment">
+  <div class="">
+    Category: <%= blog.category %>
+    <a class="ui right floated basic button" href="/blogs">Go Back</a>
+  </div>
+  <div class="ui huge centered header"><%= blog.title %></div>
+  <div class="ui top attached">
+    <div class="item">
+      <% blog.images.forEach(function(image) { %>
+      <img class="ui centered rounded image" src="<%= image.url %>" alt="Blog Post Image">
+      <% }); %>
+      <div class="content">
+        <span><%= moment(blog.createdAt).fromNow() %></span>
+      </div>
+      <div class="description">
+        <p>
+          <%- blog.description %>
+          <br>
+        </p>
+      </div>
+      <% if(currentUser && currentUser.isAdmin) { %>
+      <form class="inline" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+        <button class="ui right floated red basic button">Delete</button>
+      </form>
+      <a class="ui right floated orange basic button" href="/blogs/<%= blog._id %>/edit">Edit</a>
+      <% } %>
+    </div>
+  </div>
+  <a class="ui basic button" href="/blogs">Go Back</a>
 </div>

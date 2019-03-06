@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- meta -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>EFII - Personal Portfolio</title>
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Playfair+Display:400,400i,700,700i,900,900i" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="/landingStyle/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="/landingStyle/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="/landingStyle/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="/landingStyle/magnific-popup/magnific-popup.css" rel="stylesheet">
+  <link href="/landingStyle/hover/hover.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="/landingStyle/css/style.css" rel="stylesheet">
+
+  <!-- Responsive css -->
+  <link href="/landingStyle/css/responsive.css" rel="stylesheet">
+
+  <!-- Modernizer -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
+
+</head>
+
+<body>
+
+  <!-- start section navbar -->
+  <nav id="main-nav">
+    <div class="row">
+      <div class="container">
+
+        <div class="logo">
+          <a href="#"><img style="height: 30px; width: auto;" src="/images/LOGO_2.png" alt="logo"></a>
+        </div>
+
+        <div class="responsive"><i data-icon="m" class="ion-navicon-round"></i></div>
+
+        <ul class="nav-menu list-unstyled">
+          <li><a href="#header" class="smoothScroll">Home</a></li>
+          <li><a href="#about" class="smoothScroll">About</a></li>
+          <li><a href="#portfolio" class="smoothScroll">Portfolio</a></li>
+          <li><a href="#journal" class="smoothScroll">Blog</a></li>
+          <li><a href="#contact" class="smoothScroll">Contact</a></li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+  <!-- End section navbar -->
+
+
+  <!-- start section header -->
+  <div id="header" class="home">
+
+    <div class="container">
+      <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+          <%= error %>
+        </div>
+      <% } %>
+      <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+          <%= success %>
+        </div>
+      <% } %>
+      <div class="header-content">
+        <h1>I'm <span class="typed"></span></h1>
+        <p>programmer, developeur, photographer</p>
+
+        <ul class="list-unstyled list-social">
+          <li><a href="https://www.facebook.com/AimerFarid"><i class="ion-social-facebook"></i></a></li>
+          <li><a href="https://twitter.com/AimerFarid"><i class="ion-social-twitter"></i></a></li>
+          <li><a href="https://www.instagram.com/aimerfarid/"><i class="ion-social-instagram"></i></a></li>
+          <li><a href="https://plus.google.com/114698970124958754412"><i class="ion-social-googleplus"></i></a></li>
+          <li><a href="https://www.linkedin.com/in/emirrodzi/"><i class="ion-social-linkedin"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- End section header -->
+
+
+  <!-- start section about us -->
+  <div id="about" class="paddsection">
+    <div class="container">
+      <div class="row justify-content-between">
+
+        <div class="col-lg-4 ">
+          <div class="div-img-bg">
+            <div class="about-img">
+              <img src="images/Emir.jpg" class="img-responsive" alt="me">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="about-descr">
+            <h2>Who is Emir?</h2>
+
+            <p class="p-heading">im a web developeur Malaysian based who loves clean, simple & unique design. i also enjoy playing sports and crafting works. #GoStrong </p>
+            <p class="separator">I strive for excellence and perfection in life. With extensive knowledge of programming, I wish to be a programmer that will help and contribute to the society.</p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end section about us -->
+
+
+  <!-- start section services -->
+  <div id="services">
+    <div class="container">
+
+      <div class="services-carousel owl-theme">
+
+        <div class="services-block">
+
+          <i class="ion-ios-browsers-outline"></i>
+          <span>UI/UX DESIGN</span>
+          <p class="separator">Evaluating user requirements and Illustrating design ideas using storyboards, process flows and sitemaps. Designing graphic user interface elements, like menus, tabs and widgets.</p>
+
+        </div>
+
+        <div class="services-block">
+
+          <i class="ion-ios-lightbulb-outline"></i>
+          <span>BRAND IDENTITY</span>
+          <p class="separator">To an English person, it will seem like simplified English,told me what </p>
+
+        </div>
+
+        <div class="services-block">
+
+          <i class="ion-ios-color-wand-outline"></i>
+          <span>WEB DESIGN</span>
+          <p class="separator">Encompasses many different skills and disciplines in the production and maintenance of websites.</p>
+
+        </div>
+
+        <div class="services-block">
+
+          <i class="ion-social-android-outline"></i>
+          <span>MOBILE APPS</span>
+          <p class="separator">The act or process by which a mobile app is developed for mobile devices, such as personal digital assistants, enterprise digital assistants or mobile phones.</p>
+
+        </div>
+
+        <div class="services-block">
+
+          <i class="ion-ios-analytics-outline"></i>
+          <span>ANALYTICS</span>
+          <p class="separator">Learned the process of inspecting, cleansing, transforming, and modeling data with the goal of discovering useful information, informing conclusions, and supporting decision-making</p>
+
+        </div>
+
+        <!-- <div class="services-block">
+
+            <i class="ion-ios-camera-outline"></i>
+            <span>PHOTOGRAPHY</span>
+            <p class="separator">To an English person, it will seem like simplified English,told me what </p>
+
+          </div> -->
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- end section services -->
+
+
+  <!-- start section portfolio -->
+  <div id="portfolio" class="text-center paddsection">
+
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>My Projects</h2>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="portfolio-list">
+
+            <ul class="nav list-unstyled" id="portfolio-flters">
+              <li class="filter filter-active" data-filter=".all">all</li>
+              <li class="filter" data-filter=".webdesign">web design</li>
+              <li class="filter" data-filter=".personal">personal projects</li>
+              <li class="filter" data-filter=".webhelper">website builder</li>
+              <li class="filter" data-filter=".photography">photography</li>
+              <!-- <li class="filter" data-filter=".mockups">mockups</li> -->
+            </ul>
+
+          </div>
+
+          <div class="portfolio-container">
+
+            <!-- webhelper personal webdesign mockups photography -->
+            <div class="col-lg-3 col-md-4 portfolio-thumbnail all webdesign photography">
+              <a target="_blank" href="https://yelpcamp-ef2.herokuapp.com/">
+                <img src="images/Projects/camp-logo.jpg" alt="img">
+              </a>
+              <h5>YelpCamp Personal Website</h5>
+            </div>
+
+            <div class="col-lg-3 col-md-4 portfolio-thumbnail webdesign all">
+              <a target="_blank" href="https://tmusa-webapp.herokuapp.com/">
+                <img src="images/Projects/tmlogo.png" alt="img">
+              </a>
+              <h5>Telekom Malaysia USA Website</h5>
+            </div>
+
+            <!-- class="popup-img" -->
+            <div class="col-lg-3 col-md-4 portfolio-thumbnail all personal">
+              <a target="_blank" href="https://ef2-personal-projects.herokuapp.com/">
+                <img src="images/Projects/personal-project.png" alt="img">
+              </a>
+              <h5>My Personal Projects</h5>
+            </div>
+
+            <div class="col-lg-3 col-md-4 portfolio-thumbnail all webdesign">
+              <a target="_blank" href="https://www.jrm.com.my/">
+                <img src="images/Projects/jrmlogo.png" alt="img">
+              </a>
+              <h5>JRM Website</h5>
+            </div>
+
+            <div class="col-lg-3 col-md-4 portfolio-thumbnail all webhelper">
+              <a target="_blank" href="https://gsathletics.my/basketball/">
+                <img src="images/Projects/GoStrong.jpeg" alt="img">
+              </a>
+              <h5>GoStrong Basketball Website</h5>
+            </div>
+
+            <div class="col-lg-3 col-md-4 portfolio-thumbnail all webhelper">
+              <a target="_blank" href="https://www.rumahhutan.com/">
+                <!-- <a target="_#" href="https://editor.wix.com/html/editor/web/renderer/external_preview/document/fda26b97-26cb-4583-929f-c5d0ca3e99ed?metaSiteId=47b2714a-b7fa-4e02-a3f6-aab90918a702"> -->
+                <img src="images/Projects/LOGO RUMAH HUTAN.jpg" alt="img">
+              </a>
+              <h5>Rumah Hutan Website</h5>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- End section portfolio -->
+
+
+  <!-- start section journal -->
+  <div id="journal" class="text-left paddsection">
+
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Customized Personal Blogs</h2>
+        <p>The 3 blogs below are designed using RESTful Routes and Express Application made from scratch by myself.
+          The blogs consists of personal posts of my workout journey, travel and random blogs for everyone to enjoy. <br>
+          The web designs are combination of using different CSS Libraries such as Bootstrap and SemanticUI layout.</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="journal-block">
+        <div class="row">
+          <div class="col-lg-4 col-md-6">
+            <div class="journal-info">
+              <a href="/workouts"><img src="images/IMG_0019.jpeg" class="img-responsive" alt="img"></a>
+              <div class="journal-txt">
+                <h4><a href="/workouts">WORKOUT JOURNEY</a></h4>
+                <p class="separator">
+                  MAKING DREAMS COME TRUE! <br>
+                  A boy with a complex body journey that went from 70kg to 55kg to 85kg and finally back to 70kg.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="journal-info">
+              <a href="/travels"><img src="images/TripBoyz.jpg" class="img-responsive" alt="img"></a>
+              <div class="journal-txt">
+                <h4><a href="/travels">TRAVEL WITH ME</a></h4>
+                <p class="separator">
+                  SO LETS MAKE THE MOST IS BEAUTIFUL! <br>
+                  Journey to places I've explored in this world!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="journal-info">
+              <a href="/blogs"><img src="images/FullSizeRender.jpeg" class="img-responsive" alt="img"></a>
+              <div class="journal-txt">
+                <h4><a href="/blogs">THOUGHTS TO SHARE</a></h4>
+                <p class="separator">
+                  NEW LIFE CIVILIZATIONS TO BOLDLY! <br>
+                  A journey of learning to be Emir Rodzi and enjoy what my mind speaks.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- End section journal -->
+
+
+  <!-- start sectoion contact -->
+  <div id="contact" class="paddsection">
+    <div class="container">
+      <div class="contact-block1">
+        <div class="row">
+
+          <div class="col-lg-6">
+            <div class="contact-contact">
+
+              <h2 class="mb-30">GET IN TOUCH</h2>
+
+              <ul class="contact-details">
+                <li><span>George Mason Village Condo,</span></li>
+                <li><span>S George Mason Dr,</span></li>
+                <li><span>Arlington, VA</span></li>
+                <li><span>United States of America</span></li>
+                <li><span></span></li>
+                <!-- <li><span>+1 615 710 9914 | +6 019 203 9999</span></li> -->
+                <li><span></span></li>
+                <li><span>emirfarid8196@gmail.com</span></li>
+                <!-- <li><span>No. 31, Jln DG 2/4</span></li>
+                <li><span>Taman Desa Gemilang, Kg. Sg. Pusu,</span></li>
+                <li><span>53100 Gombak, Selangor Darul Ehsan</span></li>
+                <li><span>+6 019 203 9999 | +1 615 710 9914</span></li>
+                <li><span>emirfarid8196@gmail.com</span></li> -->
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <form action="/send" method="POST" role="form" class="contactForm">
+              <div class="row">
+
+                <div id="sendmessage">Your message has been sent. Thank you!</div>
+                <div id="errormessage"></div>
+
+                <div class="col-lg-6">
+                  <div class="form-group contact-block1">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validation"></div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                    <div class="validation"></div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" data-rule="minlen:4" data-msg="Please enter your phone number" />
+                    <div class="validation"></div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                    <div class="validation"></div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <textarea class="form-control" name="message" rows="30" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                    <div class="validation"></div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <input type="submit" class="btn btn-default btn-send" value="Send message">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- start sectoion contact -->
+
+
+  <!-- start section footer -->
+  <div id="footer" class="text-center">
+    <div class="container">
+      <div class="socials-media text-center">
+
+        <ul class="list-unstyled">
+          <li><a href="https://www.facebook.com/AimerFarid"><i class="ion-social-facebook"></i></a></li>
+          <li><a href="https://twitter.com/AimerFarid"><i class="ion-social-twitter"></i></a></li>
+          <li><a href="https://www.instagram.com/aimerfarid/?hl=en"><i class="ion-social-instagram"></i></a></li>
+          <li><a href="https://plus.google.com/114698970124958754412"><i class="ion-social-googleplus"></i></a></li>
+          <li><a href="https://www.linkedin.com/in/emirrodzi/"><i class="ion-social-linkedin"></i></a></li>
+        </ul>
+
+      </div>
+
+      <p>&copy; Copyrights Folio. All rights reserved.</p>
+
+      <div class="credits">
+
+          <!-- All the links in the footer should remain intact.
+          You can delete the links only if you purchased the pro version.
+          Licensing information: https://bootstrapmade.com/license/
+          Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Folio -->
+
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+
+    </div>
+  </div>
+  <!-- End section footer -->
+
+  <!-- JavaScript Libraries -->
+  <script src="/landingStyle/jquery/jquery.min.js"></script>
+  <script src="/landingStyle/jquery/jquery-migrate.min.js"></script>
+  <script src="/landingStyle/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/landingStyle/typed/typed.js"></script>
+  <script src="/landingStyle/owlcarousel/owl.carousel.min.js"></script>
+  <script src="/landingStyle/magnific-popup/magnific-popup.min.js"></script>
+  <script src="/landingStyle/isotope/isotope.pkgd.min.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="/landingStyle/js/main.js"></script>
+
+</body>
+
+</html>

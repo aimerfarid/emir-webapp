@@ -7,6 +7,7 @@ const blogSchema = new Schema({
   description: String,
   images: [ {url: String, public_id: String} ],
   category: String,
+  createdAt: {type: Date, default: Date.now},
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'

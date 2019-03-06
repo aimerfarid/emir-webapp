@@ -1,29 +1,152 @@
 const User = require('../models/user');
+const Blog = require('../models/blog');
+const Travel = require('../models/travel');
+const Workout = require('../models/workout');
+const nodemailer = require('nodemailer');
 const passport = require('passport');
+const util = require('util');
+const { cloudinary } = require('../cloudinary');
+const { deleteProfileImage } = require('../middleware');
 
 module.exports = {
+  // GET /landing
+  landingPage(req, res, next) {
+    res.render('landing', { title: 'EFII Website' })
+  },
+  // GET /index Home
+  async indexPage(req, res, next) {
+    const blogs = await Blog.find({});
+    const travels = await Travel.find({});
+    const workouts = await Workout.find({});
+    res.render('index', {
+      blogs,
+      travels,
+      workouts,
+      mapBoxGLToken: process.env.MAPBOXGL_TOKEN,
+      title: 'Emir\'s Blogs'
+    });
+  },
+  // GET /register
+  getRegister(req, res, next) {
+    res.render('register', {title: 'Register', username: '', email: '' })
+  },
   // POST /register
   async postRegister(req, res, next) {
-    const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
-      image: req.body.image
-    });
-    await User.register(newUser, req.body.password);
-    res.redirect('/');
+    try {
+      // eval(require('locus'));
+      if (req.file) {
+        const { secure_url, public_id } = req.file;
+        req.body.image = {secure_url, public_id};
+      }
+      const user = await User.register(new User(req.body), req.body.password);
+      req.login(user, function(err) {
+        if (err) return next(err);
+        req.session.success = `Welcome to Emir's Website, ${user.username}!`;
+        res.redirect('/index');
+      });
+    } catch (err) {
+      deleteProfileImage(req);
+      const { username, email } = req.body;
+      let error = err.message;
+      if (error.includes('duplicate') && error.includes('index: email_1 dup key')) {
+        error = 'A user with the given email is already registered';
+      }
+      res.render('register', { title: 'Register', username, email, error });
+    }
   },
-
+  // GET /login
+  getLogin(req, res, next) {
+    if(req.isAuthenticated()) return res.redirect('/');
+    if (req.query.returnTo) req.session.redirectTo = req.headers.referer;
+    res.render('login', {title: 'Login'})
+  },
   // POST /login
-  postLogin(req, res, next) {
-    passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: '/login'
-    })(req, res, next);
+  async postLogin(req, res, next) {
+    const { username, password } = req.body;
+    const { user, error } = await User.authenticate()(username, password);
+    if (!user && error) return next(error);
+    req.login(user, function(err) {
+      if (err) return next(err);
+      req.session.success = `Welcome back, ${username}!`;
+      const redirectUrl = req.session.redirectTo || '/index';
+      delete req.session.redirectTo;
+      res.redirect(redirectUrl);
+    });
   },
 
   // GET /logout
   getLogout(req, res, next) {
     req.logout();
-    res.redirect('/');
+    res.redirect('/index');
+  },
+
+  // GET /profile
+  async getProfile(req, res, next) {
+    const blogs = await Blog.find().where('author').equals(req.user._id).limit(10).exec();
+    const travels = await Travel.find().where('author').equals(req.user._id).limit(10).exec();
+    const workouts = await Workout.find().where('author').equals(req.user._id).limit(10).exec();
+    res.render('profile', { blogs, travels, workouts });
+  },
+
+  // UPDATE /profile
+  async updateProfile(req, res, next) {
+    const {
+      username,
+      email
+    } = req.body;
+    const { user } = res.locals;
+    if (username) user.username = username;
+    if (email) user.email = email;
+    if (req.file) {
+      if (user.image.public_id) await cloudinary.v2.uploader.destroy(user.image.public_id);
+      const { secure_url, public_id } = req.file;
+      user.image = { secure_url, public };
+    }
+    await user.save();
+    const login = util.promisify(req.login.bind(req));
+    await login(user);
+    req.session.success = 'Profile successfully updated!';
+    res.redirect('/profile');
+  },
+
+  async postInfo(req, res, next) {
+    const transporter = await nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'emirfaridtm@gmail.com',
+        pass: process.env.PWD_TM_GMAIL
+      }
+    });
+
+    const output = `
+      <p>You have a new contact request</p>
+      <h3>Contact Details</h3>
+      <ul>
+        <li>Name: ${req.body.name}</li>
+        <li>Email: ${req.body.email}</li>
+        <li>Phone: ${req.body.phone}</li>
+      </ul>
+      <h3>${req.body.subject}</h3>
+      <p>${req.body.message}</p>
+    `
+
+    const mailOptions = {
+      from: '"Website EFII" <emirfarid8196@gmail.com>',
+      to: 'aimerfarid@icloud.com',
+      subject: 'New Contacts',
+      html: output
+    };
+
+    transporter.sendMail(mailOptions, function(err, info) {
+      if (err) {
+        console.log(err.message);
+        req.session.error = "Message sending error!";
+        res.redirect('/');
+      } else {
+        console.log('Email sent: ' + info.response);
+        req.session.success = 'Contacts successfully sent!';
+        res.redirect('/');
+      }
+    });
   }
 }

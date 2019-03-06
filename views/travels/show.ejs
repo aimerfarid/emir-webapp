@@ -1,22 +1,55 @@
 <% layout('layouts/travel-show-layout') -%>
-<h1><%= travel.title %></h1>
-<div>Location: <%= travel.location %></div>
-<div><%= travel.description %></div>
-<div class="">
-  <% travel.images.forEach(function(image) { %>
-    <img src="<%= image.url %>" alt="Travel Images" width="200px">
-  <% }) %>
+<section class="jumbotron">
+  <h1 class="jumbotron-heading text-center">
+    <%= travel.title %>
+  </h1>
+  <div class="mx-auto" id='map'></div>
+  <div class="container text-center">
+    <h5><%= travel.location %></h5>
+    <p class="lead text-muted"><%= travel.description %><p>
+      <% if(currentUser && travel.author._id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
+        <div>
+          <a href="/travels/<%= travel.id %>/edit">
+            <button class="btn btn-primary">Edit</button>
+          </a>
+          <form style="display: inline;" action="/travels/<%= travel.id %>?_method=DELETE" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+          </form>
+        </div>
+      <% } %>
+  </div>
+</section>
+
+<div class="album py-5 bg-light">
+  <div class="container">
+    <div class="row">
+
+      <% travel.images.forEach(function(image) { %>
+      <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+          <img class="card-img-top" src="<%= image.url %>" alt="Travel Images" width="200px">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <!-- <small class="text-muted">9 mins</small> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+
+    </div>
+  </div>
 </div>
 
-<div id='map'></div>
-
-<div>
-  <a href="/travels/<%= travel.id %>/edit">
-    <button>Edit</button>
-  </a>
-</div>
-<div class="">
-  <form class="" action="/travels/<%= travel.id %>?_method=DELETE" method="POST">
-    <input type="submit" value="Delete">
-  </form>
-</div>
+<footer class="text-muted">
+  <div class="container">
+    <p class="float-right">
+      <a href="#">Back to top</a>
+    </p>
+    <p>Album &copy; Bootstrap</p>
+  </div>
+</footer>

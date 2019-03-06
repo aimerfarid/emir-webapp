@@ -1,19 +1,18 @@
 const Blog = require('../models/blog');
-const cloudinary = require('cloudinary');
-cloudinary.config({
-  cloud_name: 'aimercloud96',
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET
-});
+const { cloudinary } = require('../cloudinary');
 
 module.exports = {
   async blogIndex(req, res, next) {
     let blogs = await Blog.paginate({}, {
       page: req.query.page || 1,
-      limit: 10
+      limit: 10,
+      sort: '-_id'
     });
     blogs.page = Number(blogs.page);
-    res.render('blogs/index', { blogs, title: 'Blog Index' });
+    res.render('blogs/index', {
+      blogs,
+      title: 'Blog Index'
+    });
   },
 
   blogNew(req, res, next) {
@@ -23,12 +22,12 @@ module.exports = {
   async blogCreate(req, res, next) {
     req.body.blog.images = [];
     for(const file of req.files) {
-      let image = await cloudinary.v2.uploader.upload(file.path);
       req.body.blog.images.push({
-        url: image.secure_url,
-        public_id: image.public_id
+        url: file.secure_url,
+        public_id: file.public_id
       });
     }
+    req.body.blog.author = req.user._id;
     let blog = await Blog.create(req.body.blog);
     req.session.success = 'Blog created successfully!';
     res.redirect(`/blogs/${blog.id}`);
@@ -40,13 +39,12 @@ module.exports = {
   },
 
   async blogEdit(req, res, next) {
-    let blog = await Blog.findById(req.params.id);
-    res.render('blogs/edit', { blog });
+    res.render('blogs/edit');
   },
 
   async blogUpdate(req, res, next) {
-    // find the blog by id
-    let blog = await Blog.findById(req.params.id);
+    // destructure post from res.locals
+    const { blog } = res.locals;
     // check if there's any images for deletion
     if (req.body.deleteImages && req.body.deleteImages.length) {
       // assign deleteImages from req.body to its own variable
@@ -68,11 +66,10 @@ module.exports = {
     if(req.files) {
       // upload images
       for(const file of req.files) {
-        let image = await cloudinary.v2.uploader.upload(file.path);
         // add images to blog.images array
         blog.images.push({
-          url: image.secure_url,
-          public_id: image.public_id
+          url: file.secure_url,
+          public_id: file.public_id
         });
       }
     }
@@ -81,17 +78,18 @@ module.exports = {
     blog.description = req.body.blog.description;
     blog.category = req.body.blog.category;
     // save the updated blog into the db
-    blog.save();
+    await blog.save();
     // redirect to show page
     res.redirect(`/blogs/${blog.id}`);
   },
 
   async blogDestroy(req, res, next) {
-    let blog = await Blog.findById(req.params.id);
+    const { blog } = res.locals;
     for (const image of blog.images) {
       await cloudinary.v2.uploader.destroy(image.public_id);
     }
     await blog.remove();
+    req.session.success = 'Blog deleted successfully!';
     res.redirect('/blogs');
   }
 }

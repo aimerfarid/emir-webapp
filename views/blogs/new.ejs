@@ -3,11 +3,16 @@
 
 <form action="/blogs" method="POST" enctype="multipart/form-data">
   <div><input type="text" name="blog[title]" placeholder="Title"></div>
-  <div><input type="text" name="blog[category]" placeholder="Category"></div>
+  <select class="form-control" name="blog[category]" placeholder="Category">
+    <% var options = ["Coding", "Food", "Health", "Islam", "Personal", "Random"] %>
+    <% for (var i = 0; i < options.length; i++) { %>
+      <option value="<%=options[i]%>"><%=options[i]%></option>
+    <% } %>
+  </select>
   <div>
     <input type="file" accept="images/*" name="images" multiple />
   </div>
-  <div><textarea name="blog[description]" placeholder="Description"></textarea></div>
+  <div><textarea name="blog[description]" placeholder="Description" rows="15" cols="150"></textarea></div>
   <button>Submit</button>
 </form>
 

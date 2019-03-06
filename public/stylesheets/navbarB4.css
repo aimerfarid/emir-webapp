@@ -1,0 +1,21 @@
+.web_logo {
+  height: 30px;
+}
+
+.item img {
+  width: 50%;
+}
+
+/* Move down content because we have a fixed navbar that is 3.5rem tall */
+
+
+/* Navbar  */
+#navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#navbar li {
+  display: inline;
+  padding: 5px;
+}

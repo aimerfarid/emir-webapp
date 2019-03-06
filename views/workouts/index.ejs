@@ -1,11 +1,176 @@
 <% layout('layouts/boilerplate-workout') -%>
-<h1>Workouts Index</h1>
 
-<div class="">
-  <% workouts.forEach(function(workout) { %>
-    <h2><%= workout.title %></h2>
-    <div><%= workout.reps %> Reps/ <%= workout.sets %> Sets</div>
-    <div><%= workout.description %></div>
-    <div class=""><a href="/workouts/<%= workout.id %>">View More</a></div>
-    <% }); %>
+<div class="container">
+  <header class="blog-header py-3">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <% if (!currentUser) {   %>
+        <div class="col-4 pt-1">
+          <a class="btn btn-sm btn-outline-secondary" href="/register">Sign up</a>
+        </div>
+        <div class="col-4 text-center">
+          <a class="blog-header-logo text-dark" href="#">Emir's Workout Page</a>
+        </div>
+        <div class="col-4 d-flex justify-content-end align-items-center">
+          <a class="btn btn-sm btn-outline-secondary" href="/login">Login</a>
+        </div>
+      <% } else { %>
+        <div class="col-12 text-center">
+          <a class="blog-header-logo text-dark" href="#">Emir's Workout Page</a>
+        </div>
+      <% } %>
+    </div>
+  </header>
+
+  <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+    <div class="col-md-6 px-0">
+      <h1 class="display-4 font-italic">My Workout Page</h1>
+      <p class="lead my-3">Welcome to my personal Workout Page. I am sharing my experience on my workout journey that I've been thriving for this past few months. It was a proud journey for me to overcome my weight problems and I would love to share
+        on how I was able to strive for my weight loss journey.</p>
+      <!-- <p class="lead mb-0"><a href="workouts/display" class="text-white font-weight-bold">Continue reading...</a></p> -->
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+        <div class="card-body d-flex flex-column align-items-start">
+          <strong class="d-inline-block mb-2 text-primary">Workout Routine</strong>
+          <h4 class="mb-0">
+            <a class="text-dark" href="/workouts/types">Efficient & Sustainable Workout</a>
+          </h4>
+          <div class="mb-1 text-muted">Getting dem Gains!</div>
+          <p class="card-text mb-auto">Tips and Hacks to a successfull and productive Workout Experience in a timely efficient manner.</p>
+          <a href="/workouts/types"><br>Continue reading</a>
+        </div>
+        <img class="card-img-right flex-auto d-none my-auto d-lg-block" style="padding-right:20px; width:auto; height:150px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5VfUlhzzS6dM1AnGfdpsw8MaVBLZL3rbgv5yVU5mbQhsSrAkeWw" alt="Card image cap">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+        <div class="card-body d-flex flex-column align-items-start">
+          <strong class="d-inline-block mb-2 text-success">Diet Plans</strong>
+          <h4 class="mb-0">
+            <a class="text-dark" href="/workouts/blogs">Secrets to a Healthy Life!</a>
+          </h4>
+          <div class="mb-1 text-muted">Eat, Workout, Sleep & Repeat</div>
+          <p class="card-text mb-auto">Hacks and proper nutritious advise through my nutritious experience.</p>
+          <a href="/workouts/blogs">Continue reading</a>
+        </div>
+        <img class="card-img-right flex-auto d-none d-lg-block" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAQ12pntF1I-guB_83mOfc35zRFWVzk2WfQBY_aurHPCQeB4rL7w" alt="Card image cap">
+      </div>
+    </div>
+  </div>
 </div>
+
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-8 blog-main">
+      <h1 class="pb-3 mb-4 font-italic border-bottom">
+        More about my Journey
+      </h1>
+
+      <div class="blog-post">
+        <h2 class="blog-post-title">Why Should I go to the Gym..?</h2>
+        <p class="blog-post-meta">September 9, 2018 by <a href="#">Emir Rodzi</a></p>
+        <p>The question that I always ask myself on why do I begin this journey. Was it for health? Appearances? Confidence?
+          All of them play a big factor for this journey. But the real reason is to change my BAD HABIT to something more MEANINGFUL in my life.</p>
+        <p>Trust me, I was always against the reason on going to the gym because I truly believe that it was nonsense and a waste of time to be dedicated to. However, after giving it a shot for the first time, I've realized
+          how wrong I was and how the Gym Life was the ultimate solution for me striving for a healthy life.</p>
+        <hr>
+        <h3>Main Question, Why..?</h3>
+        <ol>
+          <li>Changing my life and my bad habits</li>
+          <li>Food is good but Health is better</li>
+          <li>Training myself to be more discipline</li>
+          <li>Avoid disease and sickness</li>
+          <li>To build confident within myself</li>
+        </ol>
+
+        <h3>How Do I Start?</h3>
+        <ol>
+          <li>Have A Short-Term & Long-Term Goal</li>
+          <li>Follow a Workout Plan (Highly Recommend <a href="/workouts/types">Mine</a>)</li>
+          <li>JUST GO DO IT!</li>
+        </ol>
+        <p>It all matters on how you want to achieve and are you willing to do it. It won't be easy at the beginning but it is totally fine
+          because this journey you're starting is similar to how a baby is learning taking their first step.</p>
+
+        <blockquote>
+          <!-- <p><em>sem malesuada magna</em>. <a href="#">Dis parturient montes</a>, <strong>nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> -->
+        </blockquote>
+      </div>
+      <hr>
+
+      <h1>Types of Workouts</h1>
+
+      <% include ../partials/paginate-workouts %>
+      <div class="row">
+        <% workouts.docs.forEach(function(workout) { %>
+        <% if(workout.type === 'Workout') { %>
+        <div class="col-md-6">
+          <h2>
+            <%= workout.title %>
+          </h2>
+          <div>
+            <%= workout.reps %> Reps/
+            <%= workout.sets %> Sets</div>
+          <div>
+            <%= workout.description.substring(0, 30) %>
+          </div>
+          <div class=""><a href="/workouts/<%= workout.id %>">View More</a></div>
+        </div>
+        <% } %>
+        <% }); %>
+      </div>
+
+      <% include ../partials/paginate-workouts %>
+
+    </div><!-- /.blog-main -->
+
+    <aside class="col-md-4 blog-sidebar">
+      <div class="p-3 mb-3 bg-light rounded">
+        <h4 class="font-italic">About Me</h4>
+        <p class="mb-0">
+          I was able to achieve a new body goal of <em>losing 20lbs from 183lbs to 160lbs</em>.
+          It was a goal that I set for myself so that I can look and feel better about myself.
+          I wish to share you my journey and hope it will inspire anyone of you who aims to change their life too.</p>
+      </div>
+
+      <div class="p-3">
+        <h4 class="font-italic">Archives</h4>
+        <!-- <ol class="list-unstyled mb-0">
+              <li><a href="#">March 2014</a></li>
+              <li><a href="#">February 2014</a></li>
+              <li><a href="#">January 2014</a></li>
+              <li><a href="#">December 2013</a></li>
+              <li><a href="#">November 2013</a></li>
+              <li><a href="#">October 2013</a></li>
+              <li><a href="#">September 2013</a></li>
+              <li><a href="#">August 2013</a></li>
+              <li><a href="#">July 2013</a></li>
+              <li><a href="#">June 2013</a></li>
+              <li><a href="#">May 2013</a></li>
+              <li><a href="#">April 2013</a></li>
+            </ol> -->
+      </div>
+
+      <div class="p-3">
+        <h4 class="font-italic">My Social Medias</h4>
+        <ol class="list-unstyled">
+          <li><a href="https://www.instagram.com/aimerfarid/">Instagram</a></li>
+          <li><a href="https://twitter.com/AimerFarid">Twitter</a></li>
+          <li><a href="">Facebook</a></li>
+          <li><a href="https://github.com/aimerfarid">GitHub</a></li>
+        </ol>
+      </div>
+    </aside><!-- /.blog-sidebar -->
+
+  </div><!-- /.row -->
+
+</main><!-- /.container -->
+
+<footer class="blog-footer">
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</footer>

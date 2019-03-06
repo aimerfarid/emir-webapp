@@ -4,17 +4,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <% include ../partials/bootstrap-style %>
+
+    <!-- Carousel  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+
+    <!-- Personal CSS & JS files -->
+    <link rel='stylesheet' href='/stylesheets/main-style.css' />
+    <link rel='stylesheet' href='/stylesheets/navbarB4.css' />
     <link rel='stylesheet' href='/stylesheets/workout-show.css' />
     <link rel='stylesheet' href='/stylesheets/starability-basic.min.css' />
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous">
-    </script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="/javascripts/main.js" type="text/javascript"></script>
   </head>
   <body>
-    <% include ../partials/navbar-workout %>
+    <% include ../partials/navbar-bootstrap %>
     <% include ../partials/flash-messages %>
     <%- body -%>
     <script src="/javascripts/workout-show.js" type="text/javascript"></script>

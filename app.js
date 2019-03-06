@@ -6,7 +6,6 @@ const engine = require('ejs-mate');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const User = require('./models/user');
@@ -26,7 +25,10 @@ const workoutRouter = require('./routes/workouts');
 const app = express();
 
 // connect to the database
-mongoose.connect('mongodb://localhost:27017/emir-webapp', { useNewUrlParser: true });
+mongoose.connect(process.env.DATABASE_MONGO_ATLAS, {
+  useNewUrlParser: true,
+  useCreateIndex: true
+ });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -39,13 +41,14 @@ app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// Uncomment after placing your favicon in /public
+app.use(favicon(path.join(__dirname, 'public', 'LOGO_1.png')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
+app.locals.moment = require('moment');
 
 // Configure Passport and Sessions
 app.use(session({
@@ -62,10 +65,13 @@ passport.deserializeUser(User.deserializeUser());
 
 // set local variables middleware
 app.use(function(req, res, next) {
-  req.user = {
-	'_id' : '5c42541695bf7954f2bfd73d',
-	'username' : 'aimer'
-  }
+  // req.user = {
+	// '_id' : '5c5b565321af2022628995da',
+  // 'isAdmin' : 'true',
+	// '_id' : '5c437f0092dd9a55ae3a9d9c',
+	// '_id' : '5c4a1c05d2128e86193f6075',
+	// 'username' : 'AimerFarid'
+  // }
   res.locals.currentUser = req.user;
   // set default page title
   res.locals.title = 'Emir Website';

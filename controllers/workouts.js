@@ -1,15 +1,35 @@
 const Workout = require('../models/workout');
-const cloudinary = require('cloudinary');
-cloudinary.config({
-  cloud_name: 'aimercloud96',
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET
-});
+const { cloudinary } = require('../cloudinary');
 
 module.exports = {
   async workoutIndex(req, res, next) {
-    let workouts = await Workout.find({});
-    res.render('workouts/index', { workouts, title: 'Workout Index' });
+    let workouts = await Workout.paginate({}, {
+      page: req.query.page || 1,
+      limit: 10,
+      sort: '-_id'
+    });
+    workouts.page = Number(workouts.page);
+    res.render('workouts/index', {
+      workouts,
+      title: 'Workout Index'
+    });
+  },
+
+  async workoutIndexBlog(req, res, next) {
+    let workouts = await Workout.paginate({}, {
+      page: req.query.page || 1,
+      limit: 10,
+      sort: '-_id'
+    });
+    workouts.page = Number(workouts.page);
+    res.render('workouts/index-blog', {
+      workouts,
+      title: 'Health Blogs'
+    });
+  },
+
+  workoutTypes(req, res, next) {
+    res.render('workouts/types');
   },
 
   workoutNew(req, res, next) {
@@ -20,14 +40,18 @@ module.exports = {
     // create using req.body
     req.body.workout.images = [];
     for (const file of req.files) {
-      let image = await cloudinary.v2.uploader.upload(file.path);
       req.body.workout.images.push({
-        url: image.secure_url,
-        public_id: image.public_id
+        url: file.secure_url,
+        public_id: file.public_id
       });
     }
+    req.body.workout.author = req.user._id;
     let workout = await Workout.create(req.body.workout);
-    res.redirect(`/workouts/${workout.id}`);
+    if (workout.type === 'Blog') {
+      res.redirect(`/workouts/blogs/${workout.id}`);
+    } else {
+      res.redirect(`/workouts/${workout.id}`);
+    }
   },
 
   async workoutShow(req, res, next) {
@@ -40,18 +64,31 @@ module.exports = {
         model: 'User'
       }
     });
-    res.render('workouts/show', { workout });
+    const floorRating = workout.calculateAvgRating();
+    res.render('workouts/show', { workout, floorRating });
   },
 
-  async workoutEdit(req, res, next) {
+  async workoutShowBlog(req, res, next) {
     // find the workout
-    let workout = await Workout.findById(req.params.id);
-    res.render('workouts/edit', { workout });
+    let workout = await Workout.findById(req.params.id).populate({
+      path: 'comments',
+      options: { sort: {'_id': -1} },
+      populate: {
+        path: 'author',
+        model: 'User'
+      }
+    });
+    const floorRating = workout.calculateAvgRating();
+    res.render('workouts/show-blog', { workout, floorRating });
+  },
+
+  workoutEdit(req, res, next) {
+    res.render('workouts/edit');
   },
 
   async workoutUpdate(req, res, next) {
-    // find the workout by id
-    let workout = await Workout.findById(req.params.id);
+    // destructure post from res.locals
+    const { workout } = res.locals;
     // check if there's any images for deletion
     if (req.body.deleteImages && req.body.deleteImages.length) {
       // assign deleteImages from req.body to its own variable
@@ -73,29 +110,33 @@ module.exports = {
     if(req.files) {
       // upload images
       for(const file of req.files) {
-        let image = await cloudinary.v2.uploader.upload(file.path);
         // add images to workout.images array
         workout.images.push({
-          url: image.secure_url,
-          public_id: image.public_id
+          url: file.secure_url,
+          public_id: file.public_id
         });
       }
     }
     // update the workout with any new properties
     workout.title = req.body.workout.title;
     workout.description = req.body.workout.description;
+    workout.type = req.body.workout.type;
+    workout.category = req.body.workout.category;
     workout.reps = req.body.workout.reps;
     workout.sets = req.body.workout.sets;
     // save the updated workout into the db
-    workout.save();
+    await workout.save();
     // redirect to show page
     res.redirect(`/workouts/${workout.id}`);
   },
 
   async workoutDestroy(req, res, next) {
-    let workout = await Workout.findById(req.params.id);
+    const { workout } = res.locals;
+    for (const image of workout.images) {
+      await cloudinary.v2.uploader.destroy(image.public_id);
+    }
     await workout.remove();
-    req.session.success = 'Workout removed successfully!';
+    req.session.success = 'Workout Post removed successfully!';
     res.redirect('/workouts');
   }
 }

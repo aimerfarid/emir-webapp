@@ -1,0 +1,26 @@
+<div class="ui fixed inverted menu">
+  <div class="ui container">
+
+    <a class="header item" href="/index"><img style="width:70px;" class="web_logo" src="/images/LOGO_2.png" alt="logo"></a>
+
+
+    <div class="ui simple dropdown item">Home<i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item"><a style="color: black;" href="/blogs">Personal Blogs</a></div>
+        <div class="item"><a style="color: black;" href="/workouts/blogs">Health Blogs</a></div>
+        <div class="item"><a style="color: black;" href="/workouts">Workouts</a></div>
+        <div class="item"><a style="color: black;" href="/travels">Travels</a></div>
+      </div>
+    </div>
+    <!-- Add specifically the route for new post in the blog -->
+    <% if(currentUser && currentUser.isAdmin) { %>
+    <a href="/blogs/new" class="item">New Post</a>
+    <% } %>
+    <% if (currentUser) { %>
+      <a class="ui inverted right teal basic item button" href="/profile">Profile</a>
+      <a class="item" href="/logout">Logout</a>
+    <% } %>
+  </div>
+</div>
+
+<div style="padding-bottom:40px;"></div>

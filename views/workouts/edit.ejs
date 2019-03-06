@@ -1,23 +1,62 @@
 <% layout('layouts/boilerplate-workout') -%>
-<h1>Edit Workout Post!</h1>
 
-<form action="/workouts/<%= workout.id %>?_method=PUT" method="POST" id="postEditFormWorkout" enctype="multipart/form-data">
-  <div><input type="text" name="workout[title]" placeholder="Title" value="<%= workout.title %>"></div>
-  <div><input type="text" name="workout[reps]" placeholder="Reps" value="<%= workout.reps %>"></div>
-  <div><input type="number" name="workout[sets]" placeholder="Sets" value="<%= workout.sets %>"></div>
-  <div>
-    <input type="file" id="imageUpload" accept="images/*" name="images" multiple />
-    <div class="">
-      <% workout.images.forEach(function(image, i) { %>
-        <img src="<%= image.url %>" alt="Workout Images" width="100px">
-        <label for="image<%= i %>Workout">Delete?</label>
-        <input type="checkbox" name="deleteImages[]" class="imageDeleteCheckbox" id="image<%= i %>Workout" value="<%= image.public_id %>">
-      <% }); %>
+<% var typeOpts = ['Blog', 'Workout'] %>
+<% var categoryOpts = ['Push', 'Pull', 'Leg', 'Stretching', 'Warm Up', 'Food', 'Diet', 'Health Tips'] %>
+<h1>Edit Workout Post!</h1>
+<div class="container">
+  <form action="/workouts/<%= workout.id %>?_method=PUT" method="POST" id="postEditFormWorkout" enctype="multipart/form-data">
+    <div class="form-group row">
+      <label for="editTitleW" class="col-md-1 col-form-label">Title:</label>
+      <div class="col-md-7">
+        <input class="form-control" id="editTitleW" type="text" name="workout[title]" placeholder="Title" value="<%= workout.title %>">
+      </div>
+      <label for="editTypeW" class="col-md-1 col-form-label">Type:</label>
+      <div class="col-md-3">
+        <select id="editTypeW" class="form-control" name="workout[type]" placeholder="Category">
+          <% for (var i = 0; i < typeOpts.length; i++) { %>
+            <option value="<%=typeOpts[i]%>"><%=typeOpts[i]%></option>
+            <% } %>
+          </select>
+        </div>
     </div>
-  </div>
-  <div><textarea name="workout[description]" placeholder="Description"><%= workout.description %></textarea></div>
-  <button>Submit</button>
-</form>
+    <div class="form-group row">
+      <label for="editCatW" class="col-md-1 col-form-label">Category:</label>
+      <div class="col-md-3">
+        <select id="editCatW" class="form-control" name="workout[category]" placeholder="Category">
+        <% for (var i = 0; i < categoryOpts.length; i++) { %>
+          <option value="<%=categoryOpts[i]%>"><%=categoryOpts[i]%></option>
+        <% } %>
+        </select>
+      </div>
+      <label for="editRepsW" class="col-md-1 col-form-label">Reps:</label>
+      <div class="col-md-3">
+        <input class="form-control" id="editRepsW" type="text" name="workout[reps]" placeholder="Reps" value="<%= workout.reps %>">
+      </div>
+      <label for="editSetsW" class="col-md-1 col-form-label">Sets:</label>
+      <div class="col-md-3">
+        <input class="form-control" id="editSetsW" type="number" name="workout[sets]" placeholder="Sets" value="<%= workout.sets %>">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="imageUpload" class="col-md-1 col-form-label">Images:</label>
+      <input type="file" id="imageUpload" accept="images/*" name="images" multiple />
+      <div>
+        <% workout.images.forEach(function(image, i) { %>
+          <img src="<%= image.url %>" alt="Workout Images" width="100px">
+          <label for="image<%= i %>Workout">Delete?</label>
+          <input type="checkbox" name="deleteImages[]" class="imageDeleteCheckbox" id="image<%= i %>Workout" value="<%= image.public_id %>">
+        <% }); %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="editDescW" class="col-md-1 col-form-label">Description:</label>
+      <div class="col-md-11">
+        <textarea class="form-control" id="editDescW" name="workout[description]" placeholder="Description"><%= workout.description %></textarea>
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-block">Submit</button>
+  </form>
+</div>
 
 <script type="text/javascript">
   // find post edit form

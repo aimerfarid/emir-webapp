@@ -1,8 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const upload = multer({'dest': 'uploads/'});
-const { asyncErrorHandler } = require('../middleware');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
+const {
+  asyncErrorHandler,
+  isLoggedIn,
+  isAdminWebsite,
+  isAuthorB
+} = require('../middleware');
 const {
   blogIndex,
   blogNew,
@@ -17,22 +23,22 @@ const {
 router.get('/', asyncErrorHandler(blogIndex));
 
 /* GET blogs new /blogs */
-router.get('/new', blogNew);
+router.get('/new', isLoggedIn, isAdminWebsite, blogNew);
 
 /* POST blogs create /blogs */
-router.post('/', upload.array('images', 2), asyncErrorHandler(blogCreate));
+router.post('/', isLoggedIn, upload.array('images', 2), asyncErrorHandler(blogCreate));
 
 /* GET blogs show /blogs/:id */
 router.get('/:id', asyncErrorHandler(blogShow));
 
 /* GET blogs edit /blogs/:id */
-router.get('/:id/edit', asyncErrorHandler(blogEdit));
+router.get('/:id/edit', isLoggedIn, asyncErrorHandler(isAuthorB), blogEdit);
 
 /* PUT blogs update /blogs/:id */
-router.put('/:id', upload.array('images', 2), asyncErrorHandler(blogUpdate));
+router.put('/:id', isLoggedIn, asyncErrorHandler(isAuthorB), upload.array('images', 2), asyncErrorHandler(blogUpdate));
 
 /* DELETE blogs destroy /blogs/:id */
-router.delete('/:id', asyncErrorHandler(blogDestroy));
+router.delete('/:id', isLoggedIn, asyncErrorHandler(isAuthorB), asyncErrorHandler(blogDestroy));
 
 module.exports = router;
 

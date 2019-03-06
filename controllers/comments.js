@@ -13,6 +13,9 @@ module.exports = {
     }).length;
     if (haveCommented) {
       req.session.error = 'Sorry, you can only create one comment per post!';
+      if (workout.type === 'Blog') {
+        return res.redirect(`/workouts/blogs/${workout.id}`);
+      }
       return res.redirect(`/workouts/${workout.id}`);
     }
     // create the comment
@@ -24,13 +27,16 @@ module.exports = {
     workout.save();
     // redirect to the workout
     req.session.success = 'Comment created successfully!';
-    res.redirect(`/workouts/${workout.id}`);
+    if (workout.type === 'Blog') {
+      res.redirect(`/workouts/blogs/${req.params.id}`);
+    }
+    res.redirect(`/workouts/${req.params.id}`);
   },
   // Comments Update
   async commentUpdate(req, res, next) {
     await Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment);
     req.session.success = 'Comment updated successfully!';
-    res.redirect(`/workouts/${req.params.id}`);
+    res.redirect('back');
   },
   // Comments Destroy
   async commentDestroy(req, res, next) {
@@ -39,6 +45,6 @@ module.exports = {
     });
     await Comment.findByIdAndRemove(req.params.comment_id);
     req.session.success = 'Comment removed successfully!';
-    res.redirect(`/workouts/${req.params.id}`);
+    res.redirect('back');
   }
 }

@@ -3,7 +3,14 @@
 
 <form action="/blogs/<%= blog.id %>?_method=PUT" method="POST" id="postEditFormBlog" enctype="multipart/form-data">
   <div><input type="text" name="blog[title]" placeholder="Title" value="<%= blog.title %>"></div>
-  <div><input type="text" name="blog[category]" placeholder="Category" value="<%= blog.category %>"></div>
+  <div>
+    <select class="form-control" name="blog[category]" placeholder="Category">
+      <% var options = ["Coding", "Food", "Health", "Islam", "Personal", "Random"] %>
+      <% for (var i = 0; i < options.length; i++) { %>
+        <option value="<%=options[i]%>"><%=options[i]%></option>
+      <% } %>
+    </select>
+  </div>
   <div>
     <input type="file" id="imageUpload" accept="images/*" name="images" multiple />
     <div class="">

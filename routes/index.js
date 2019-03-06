@@ -1,42 +1,60 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 const passport = require('passport');
-const { postRegister, postLogin, getLogout } = require('../controllers');
-const { asyncErrorHandler } = require('../middleware');
+const {
+  landingPage,
+  indexPage,
+  getRegister,
+  postRegister,
+  getLogin,
+  postLogin,
+  getLogout,
+  getProfile,
+  updateProfile,
+  postInfo
+} = require('../controllers');
+const {
+  asyncErrorHandler,
+  isLoggedIn,
+  isValidPassword,
+  changePassword
+} = require('../middleware');
 
-/* GET home page. */
-router.get('/', (req, res, next) => {
-  res.render('index', { title: 'Emir Website' });
-});
+/* GET home/landing page. */
+router.get('/', landingPage);
+
+/* GET home/index page. */
+router.get('/index', asyncErrorHandler(indexPage));
 
 /* GET /register */
-router.get('/register', (req, res, next) => {
-  res.send('GET /register');
-});
+router.get('/register', getRegister);
 
 /* POST /register */
-router.post('/register', asyncErrorHandler(postRegister));
+router.post('/register', upload.single('image'), asyncErrorHandler(postRegister));
 
 /* GET /login */
-router.get('/login', (req, res, next) => {
-  res.send('GET /login');
-});
+router.get('/login', getLogin);
 
 /* POST /login */
-router.post('/login', postLogin);
+router.post('/login', asyncErrorHandler(postLogin));
 
 /* GET /logout */
 router.get('/logout', getLogout);
 
 /* GET /profile */
-router.get('/profile', (req, res, next) => {
-  res.send('GET /profile');
-});
+router.get('/profile', isLoggedIn, asyncErrorHandler(getProfile));
 
 /* PUT /profile */
-router.put('/profile/:user_id', (req, res, next) => {
-  res.send('PUT /profile/:user_id');
-});
+router.put('/profile',
+  isLoggedIn,
+  upload.single('image'),
+  asyncErrorHandler(isValidPassword),
+  asyncErrorHandler(changePassword),
+  asyncErrorHandler(updateProfile)
+);
 
 /* GET /forgot */
 router.get('/forgot', (req, res, next) => {
@@ -57,5 +75,7 @@ router.get('/reset/:token', (req, res, next) => {
 router.put('/reset/:token', (req, res, next) => {
   res.send('PUT /reset/:token');
 });
+
+router.post('/send', asyncErrorHandler(postInfo));
 
 module.exports = router;

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title><%= title %></title>
+
+    <% include ../partials/bootstrap-style %>
+
+    <!-- Personal CSS & JS files -->
+    <link rel='stylesheet' href='/stylesheets/main-style.css' />
+    <link rel='stylesheet' href='/stylesheets/navbarB4.css' />
+    <link rel='stylesheet' href='/stylesheets/signin.css' />
+
+    <!-- MAPBOX CSS & JS -->
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css' type='text/css' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.51.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js'></script>
+  </head>
+  <body>
+    <% include ../partials/navbar %>
+    <% include ../partials/flash-messages %>
+    <%- body -%>
+  </body>
+</html>

@@ -1,11 +1,22 @@
 <% layout('layouts/boilerplate-travel') -%>
-<h1>Travels Index</h1>
+<h1><%= title %></h1>
 
+<div id="map"></div>
+
+<% include ../partials/paginate-travels %>
+
+<% travels.docs.forEach(function(travel) { %>
 <div class="">
-  <% travels.forEach(function(travel) { %>
     <h2><%= travel.title %></h2>
-    <div>Location: <%= travel.location %></div>
-    <div><%= travel.description %></div>
+    <div><strong>Location:</strong> <%= travel.location %></div>
+    <div><%= travel.description.substring(0,100) %>...</div>
     <div class=""><a href="/travels/<%= travel.id %>">View More!</a></div>
-  <% }) %>
 </div>
+<% }) %>
+<% include ../partials/paginate-travels %>
+
+<script type="text/javascript">
+  mapboxgl.accessToken = "<%= mapBoxGLToken %>";
+  var travels = {features: <%- JSON.stringify(travels.docs) %>};
+</script>
+<script src="/javascripts/allTravelsClusterMap.js" type="text/javascript"></script>

@@ -1,0 +1,179 @@
+<% layout('layouts/workout-show-layout') -%>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+
+    <!-- Blog Entries Column -->
+    <div class="col-lg-8">
+
+      <!-- Title -->
+      <h1 class="mt-4"><%= workout.title %></h1>
+
+      <!-- Author -->
+      <p class="lead">by <a href="#">@aimerfarid</a></p>
+
+      <!-- Ratings -->
+      <div>
+        <% for (let i = 0; i < 5; i++) { %>
+          <% if (i < floorRating) { %>
+          <!-- Display a full star -->
+          <i class="fas fa-star"></i>
+          <% } else if ((workout.avgRating - i) > 0 && (workout.avgRating - i) < 1) { %>
+          <!-- Display a half star -->
+          <i class="fas fa-star-half-alt"></i>
+          <% } else { %>
+            <!-- Display an empty star -->
+            <i class="far fa-star"></i>
+          <% } %>
+        <% } %>
+        <%= `${workout.avgRating} star${workout.avgRating === 1 ? '' : 's'}` %>
+      </div>
+
+      <hr>
+
+      <!-- Date/Time -->
+      <p>Posted: <%= moment(workout.createdAt).fromNow() %></p>
+
+      <hr>
+
+      <!-- Preview Image -->
+      <% workout.images.forEach(function(image) { %>
+        <img class="card-img-top" src="<%= image.url %>" alt="Card image cap">
+      <% }) %>
+
+      <!-- Edit & Delete Form -->
+      <div class="row mt-3 ml-3">
+        <% if(currentUser && currentUser.isAdmin) { %>
+          <div>
+            <a href="/workouts/<%= workout.id %>/edit">
+              <button class="btn btn-outline-primary">Edit</button>
+            </a>
+          </div>
+          <div class="ml-2">
+            <form class="" action="/workouts/<%= workout.id %>?_method=DELETE" method="POST">
+              <input class="btn btn-outline-danger" type="submit" value="Delete">
+            </form>
+          </div>
+          <% } %>
+      </div>
+      
+      <hr>
+
+      <!-- Post Content -->
+      <p class="lead">
+        <%- workout.description %>
+      </p>
+      <hr>
+
+      <!-- Create a Comment -->
+      <div class="card my-4">
+        <% if(currentUser) { %>
+        <h5 class="card-header">Leave a Comment:</h5>
+        <div class="card-body">
+          <form action="/workouts/<%= workout.id %>/comments" method="POST">
+            <div class="form-group">
+              <textarea class="form-control" name="comment[body]" rows="3"></textarea>
+            </div>
+            <fieldset class="starability-basic">
+              <legend><small>Rating:</small></legend>
+              <button class="clear-rating" type="button">Clear Rating</button>
+              <input type="radio" id="rate0" class="input-no-rate" name="comment[rating]" value="0" checked aria-label="No rating." />
+              <input type="radio" id="rate1" name="comment[rating]" value="1" />
+              <label for="rate1" title="Terrible">1 star</label>
+              <input type="radio" id="rate2" name="comment[rating]" value="2" />
+              <label for="rate2" title="Not good">2 stars</label>
+              <input type="radio" id="rate3" name="comment[rating]" value="3" />
+              <label for="rate3" title="Average">3 stars</label>
+              <input type="radio" id="rate4" name="comment[rating]" value="4" />
+              <label for="rate4" title="Very good">4 stars</label>
+              <input type="radio" id="rate5" name="comment[rating]" value="5" />
+              <label for="rate5" title="Amazing">5 stars</label>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        <% } else { %>
+          <h4><a href="/login?returnTo=true">Leave a Comment</a></h4>
+        <% } %>
+      </div>
+
+      <!-- Display All Comments -->
+      <h3>Comments</h3>
+      <% workout.comments.forEach(function(comment) { %>
+      <div class="media mb-4">
+        <img class="d-flex mr-3 rounded-circle" src="<%= comment.author.image %>" alt="">
+        <div class="media-body">
+          <h5 class="mt-0"><%= comment.author.username %></h5>
+          <%= comment.body %><br>
+        </div>
+      </div>
+
+      <!-- Commenter Form -->
+      <% if(currentUser && comment.author.equals(currentUser._id)) { %>
+      <div class="">
+        <!-- Edit Form -->
+        <button class="toggle-edit-form">Edit</button>
+        <form class="edit-comment-form" action="/workouts/<%= workout.id %>/comments/<%= comment.id %>?_method=PUT" method="POST">
+          <textarea name="comment[body] required"><%= comment.body %></textarea>
+          <fieldset class="starability-basic">
+            <legend>Rating:</legend>
+            <button class="clear-rating" type="button">Clear Rating</button>
+            <input type="radio" id="edit-rate0" class="input-no-rate" name="comment[rating]" value="0" checked aria-label="No rating." />
+            <input type="radio" id="edit-rate1" name="comment[rating]" value="1" />
+            <label for="edit-rate1" title="Terrible">1 star</label>
+            <input type="radio" id="edit-rate2" name="comment[rating]" value="2" />
+            <label for="edit-rate2" title="Not good">2 stars</label>
+            <input type="radio" id="edit-rate3" name="comment[rating]" value="3" />
+            <label for="edit-rate3" title="Average">3 stars</label>
+            <input type="radio" id="edit-rate4" name="comment[rating]" value="4" />
+            <label for="edit-rate4" title="Very good">4 stars</label>
+            <input type="radio" id="edit-rate5" name="comment[rating]" value="5" />
+            <label for="edit-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+          <button>Update</button>
+        </form>
+
+        <script type="text/javascript">
+          $('#edit-rate<%= comment.rating %>').prop('checked', true);
+        </script>
+
+        <!-- Delete Form -->
+        <form class="" action="/workouts/<%= workout.id %>/comments/<%= comment.id %>?_method=DELETE" method="POST">
+          <button>Delete</button>
+        </form>
+      </div>
+      <% }; %>
+      <!-- End of Edit & Delete Form -->
+      <hr>
+      <% }); %>
+    </div>
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-md-4">
+      <!-- About Health Blogs -->
+      <div class="card my-4">
+        <h5 class="card-header">About My Health Blogs</h5>
+        <div class="card-body">
+          My contents from all my health posts are all based from my personal experience of applying the techniques and also doing some extra research which led to me improvising the current method.
+          <br><br>
+          On a side note, I must warn that each of us have different bodies with different metabolism so if I include timeline of effectiveness then believe me, this is all based from my personal record.
+          <br><br>
+          A great platform to reach out to me is to personally direct message me in my social media platforms or email me for inquiries.
+        </div>
+      </div>
+
+      <!-- Twitter -->
+      <div class="card my-4">
+        <h5 class="card-header">Follow me on Twitter!</h5>
+        <div class="card-body">
+          <a href="https://twitter.com/AimerFarid?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @AimerFarid</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+          <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Things that I’m glad what happened in the last few months of 2018...<br><br>Went from this chubby ass dude to something that I’m more confident of looking at the mirror.<br>Consistency was the recipe for this success 😊 <a href="https://t.co/omupjzy2cM">pic.twitter.com/omupjzy2cM</a></p>&mdash; أمير فريد (@AimerFarid) <a href="https://twitter.com/AimerFarid/status/1079948811508858886?ref_src=twsrc%5Etfw">January 1, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+      </div>
+    </div>
+    <!-- /.siderbar widgets -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container -->
