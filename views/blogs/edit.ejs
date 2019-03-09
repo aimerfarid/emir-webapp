@@ -7,7 +7,7 @@
     <select class="form-control" name="blog[category]" placeholder="Category">
       <% var options = ["Coding", "Food", "Health", "Islam", "Personal", "Random"] %>
       <% for (var i = 0; i < options.length; i++) { %>
-        <option value="<%=options[i]%>"><%=options[i]%></option>
+        <option value="<%= blog.category %>"><%=options[i]%></option>
       <% } %>
     </select>
   </div>

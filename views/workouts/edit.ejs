@@ -14,7 +14,7 @@
       <div class="col-md-3">
         <select id="editTypeW" class="form-control" name="workout[type]" placeholder="Category">
           <% for (var i = 0; i < typeOpts.length; i++) { %>
-            <option value="<%=typeOpts[i]%>"><%=typeOpts[i]%></option>
+            <option value="<%= workout.type %>"><%=typeOpts[i]%></option>
             <% } %>
           </select>
         </div>
@@ -24,7 +24,7 @@
       <div class="col-md-3">
         <select id="editCatW" class="form-control" name="workout[category]" placeholder="Category">
         <% for (var i = 0; i < categoryOpts.length; i++) { %>
-          <option value="<%=categoryOpts[i]%>"><%=categoryOpts[i]%></option>
+          <option value="<%= workout.category %>"><%=categoryOpts[i]%></option>
         <% } %>
         </select>
       </div>
