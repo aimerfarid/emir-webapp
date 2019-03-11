@@ -30,9 +30,9 @@ mongoose.connect(process.env.DATABASE_MONGO_ATLAS, {
   useCreateIndex: true
  });
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'Connection Error:'));
 db.once('open', function() {
-  console.log('we are connected!')
+  console.log('We are Connected!')
 });
 
 // use ejs-locals for all ejs templates:

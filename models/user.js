@@ -8,7 +8,9 @@ const userSchema = new Schema({
     secure_url: { type: String, default: 'images/default-profile.png' },
     public_id: String
   },
-  isAdmin: {type: Boolean, default: false}
+  isAdmin: {type: Boolean, default: false},
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 userSchema.plugin(passportLocalMongoose);
