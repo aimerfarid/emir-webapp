@@ -32,7 +32,7 @@ mongoose.connect(process.env.DATABASE_MONGO_ATLAS, {
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection Error:'));
 db.once('open', function() {
-  console.log('We are Connected!')
+  console.log('We are Connected to MongoDB!')
 });
 
 // use ejs-locals for all ejs templates:

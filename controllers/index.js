@@ -10,9 +10,6 @@ const { deleteProfileImage } = require('../middleware');
 const crypto = require('crypto');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-// const apiKey = process.env.SENDGRID_API_KEY;
-// const domain = 'https://emir-webapp.herokuapp.com/';
-// const mailgun = require('mailgun-js')({ apiKey, domain });
 
 module.exports = {
   /* GET /landing */
@@ -154,7 +151,10 @@ module.exports = {
   /* GET /reset */
   async getReset(req, res, next) {
     const { token } = req.params;
-  	const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } })
+  	const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
     if (!user) {
       req.session.error = 'Password reset token is invalid or has expired.';
       return res.redirect('/forgot-password');
@@ -165,7 +165,10 @@ module.exports = {
   /* PUT /reset */
   async putReset(req, res, next) {
   	const { token } = req.params;
-  	const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
+  	const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
 
   	if (!user) {
   	 req.session.error = 'Password reset token is invalid or has expired.';
@@ -174,14 +177,15 @@ module.exports = {
 
   	if(req.body.password === req.body.confirm) {
   		await user.setPassword(req.body.password);
-  		user.resetPasswordToken = undefined;
-  		user.resetPasswordExpires = undefined;
+  		user.resetPasswordToken = null;
+  		user.resetPasswordExpires = null;
   		await user.save();
   		const login = util.promisify(req.login.bind(req));
   		await login(user);
   	} else {
   		req.session.error = 'Passwords do not match.';
-  		return res.redirect(`/reset/${ token }`);
+  		// return res.redirect(`/reset/${ token }`);
+  		return res.redirect('/forgot-password');
   	}
 
     const msg = {

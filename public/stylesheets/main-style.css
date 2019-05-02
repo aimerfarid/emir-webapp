@@ -1,6 +1,6 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
   padding-top: 3.5rem; /* Padding top by header height */
   margin-bottom: 120px; /* Margin bottom by footer height */
 }
